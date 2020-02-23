@@ -26,44 +26,35 @@ public class SnakeJava {
                                                         //methods//
 
 
-    public int neighbors (boolean[][]game){//counts LIVE neighbors//make sure to not go out of bounds
+    private int neighbors (boolean[][]game) {//counts LIVE neighbors//make sure to not go out of bounds
         int neighbors=0;
-        for(int r=0;r<game.length;r++) {
+        for (int r = 0; r < game.length; r++) {
             for (int c = 0; c < game[r].length; c++) {
-                  if (game[r][c - 1]) {//left
+                if (game[r][c - 1]==true) {//left
+                    neighbors++; ;
+                } if (game[r - 1][c]==true) {//straight up
                     neighbors++;
-                } if (game[r - 1][c]) {//straight up
+                } if (game[r + 1][c]==true) {//straight down
                     neighbors++;
-                } if (game[r + 1][c]) {//straight down
+                } if (game[r][c + 1]==true) {//right
                     neighbors++;
-                } if (game[r][c + 1]) {//right
-                neighbors++;
-            }
-            }//closes col
-        }//closes for loop
-        return neighbors;
-    }//closes neighbors
-
-    private int getDead(boolean[][]game){//method will count 0s as dead
-        int dead=0;
-        for(int r=0;r<game.length;r++) {
-            for (int c = 0; c < game[r].length; c++) {
-                  if (!game[r][c - 1]) {
-                    dead++;
-                } if (!game[r - 1][c]) {
-                    dead++;
-                } if (!game[r + 1][c]) {
-                    dead++;
-                } if (!game[r][c + 1]) {
-                    dead++;
+                } else {
+                    neighbors--;
                 }
-                }//closes col
-        }//closes for loop
-        return dead;
-    }//closes dead method
+            }//closes col }//closes for loop
+        }//closes neighbors
+       return neighbors;
+    }//
 
-    public int[] findTailExhaustive(){
-        resetCounters();
+
+
+
+//will find the tail of the snake by searching across the whole grid to find the grid position where a true element is
+// surrounded by only one other true cell (see figure below), but is not the head, and return 3 items: the x and y
+// position of the tail in the grid, and the length of the snake on the board. Incremenets the exhaustiveChecks counter with each (x',y') cell that is examined.
+    public int[] findTailExhaustive(int neighbors){
+        resetCounters();//need to reset counters at beginning of method
+        //neighbors needs to be less than or equal to three
         int result[]=new int[3];
         int length=0;
         int tailX=0;
@@ -76,10 +67,10 @@ public class SnakeJava {
             }//closes if statement
             else if (game[r][c]=false) {
                 exhaustiveChecks++;
-                length++;
+                length--;
             }//closes else if
         }//closes col
-tailX = result[0];
+        tailX = result[0];
         tailY = result[1];
         length =result[2];
 //if neighbor=1 it is either tail or head.
