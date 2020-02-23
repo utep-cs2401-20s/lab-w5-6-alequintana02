@@ -10,86 +10,101 @@ public class SnakeJava {
     private static int recursiveChecks;
 
 
-                                                //constructors//
+    //constructors//
 // default constructor
     public SnakeJava() {
         this.game = new boolean[1][1];
-}//closes default constructor size 1x1
+    }//closes default constructor size 1x1
 
-    public SnakeJava(boolean[][] game,int[]headPosition) {
+    public SnakeJava(boolean[][] game, int[] headPosition) {
         this.headPosition = headPosition;
 
     }//closes hP constructor
 //index[0] should be first position=head
-                                                //end of constructors//
+    //end of constructors//
 
-                                                        //methods//
+    //methods//
 
 
-    private int neighbors (boolean[][]game) {//counts LIVE neighbors//make sure to not go out of bounds
-        int neighbors=0;
+    private int neighbors(boolean[][] game) {//counts LIVE neighbors//make sure to not go out of bounds
+        int neighbors = 0;
         for (int r = 0; r < game.length; r++) {
             for (int c = 0; c < game[r].length; c++) {
-                if (game[r][c - 1]==true) {//left
-                    neighbors++; ;
-                } if (game[r - 1][c]==true) {//straight up
+                if (game[r][c - 1] == true) {//left
                     neighbors++;
-                } if (game[r + 1][c]==true) {//straight down
+                    ;
+                }
+                if (game[r - 1][c] == true) {//straight up
                     neighbors++;
-                } if (game[r][c + 1]==true) {//right
+                }
+                if (game[r + 1][c] == true) {//straight down
+                    neighbors++;
+                }
+                if (game[r][c + 1] == true) {//right
                     neighbors++;
                 }
             }//closes col }//closes for loop
         }//closes neighbors
-       return neighbors;
+        return neighbors;
     }//
 
 
-//will find the tail of the snake by searching across the whole grid to find the grid position where a true element is
+    //will find the tail of the snake by searching across the whole grid to find the grid position where a true element is
 // surrounded by only one other true cell (see figure below), but is not the head, and return 3 items: the x and y
 // position of the tail in the grid, and the length of the snake on the board. Increments exhaustiveChecks counter with each (x',y') cell that is examined.
-    public int[] findTailExhaustive(int neighbors){
+    public int[] findTailExhaustive(int neighbors) {
         resetCounters();//need to reset counters at beginning of method
         //neighbors needs to be less than or equal to three
-        int result[]=new int[3];//result will give back 3 values, (x&y)position and total length
-        int length=0;
-        int tailX=0;
-        int tailY=0;
-        intTotLength=0;
+        int result[] = new int[3];//result will give back 3 values, (x&y)position and total length
+        int length = 0;
+        int tailX = 0;
+        int tailY = 0;
+        //intTotalLength = 0;
         //if neighbor=1 it is either tail or head.
         //if neigh=2 or more, move to the next cell
-    for (int r=0;r<game.length;r++){
-        exhaustiveChecks++;
-        for(int c=0;c<game[r].length;c++){
-            exhaustiveChecks++;//placed the loop this way because we want to count all cells examined
-            if (game[r][c]==true&&neighbors==1){//we want to make sure the cell is true and has at most 1 true neighbor
-                length++;//is tail or head
-                result=[r,c];
-            }//closes if statement
-           else if (game[r][c]==true&&neighbors>=2){//we want to make sure the cell is true and has at most 1 true neighbor
-                length++;
-        }//closes col
-        tailX = result[0];
-        tailY = result[1];
-        length =result[2];
-    }//closes
-    return result;
-    //(x,y position);
-    }//closes findTailExhaustive
+        for (int r = 0; r < game.length; r++) {
+            exhaustiveChecks++;
+            for (int c = 0; c < game[r].length; c++) {
+                exhaustiveChecks++;//placed the loop this way because we want to count all cells examined
+                if (game[r][c] == true && neighbors == 1) {//we want to make sure the cell is true and has at most 1 true neighbor
+                    length++;//is tail or head
+                    //result[0]=[r];
 
-    public int[] findTailRecursive(){
+                }//closes if statement
+                else if (game[r][c] == true && neighbors >= 2) {//we want to make sure the cell is true and has at most 1 true neighbor
+                    length++;
+                }//closes col
+                tailX = result[0];
+                tailY = result[1];
+                length = result[2];
+            }//closes
+            //return result;
+            //(x,y position);
+        }//closes findTailExhaustive
+        return result;
+    }
 
-    recursiveChecks++;
-    }//closes findTailRecursive
+        public int[] findTailRecursive () {// will return the exact same thing as exhaustive
+            for (int r = 0; r < game.length; r++) {
+                exhaustiveChecks++;
+                for (int c = 0; c < game[r].length; c++) {
+                    recursiveChecks++;
+                }
 
-    private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
+                recursiveChecks++;
+                return recursiveChecks;
+            }//closes findTailRecursive
+        }
 
-    }//closes private findTailRecursive
+
+        private int[] findTailRecursive (int[] currentPosition, int[] previousPosition){
+            return findTailRecursive;
+        }//closes private findTailRecursive
 
 
     public void resetCounters(){//resets both the exhaustiveChecks and recursiveChecks counters to 0.
-        exhaustiveChecks=0;
-        recursiveChecks=0;
+        this.exhaustiveChecks=0;
+        this.recursiveChecks=0;
     } //closes resetCounter
 
     private static int getRecursiveChecks(){//gets the current state of the recursiveChecks counter.
