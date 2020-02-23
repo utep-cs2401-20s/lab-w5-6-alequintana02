@@ -38,8 +38,6 @@ public class SnakeJava {
                     neighbors++;
                 } if (game[r][c + 1]==true) {//right
                     neighbors++;
-                } else {
-                    neighbors--;
                 }
             }//closes col }//closes for loop
         }//closes neighbors
@@ -47,34 +45,33 @@ public class SnakeJava {
     }//
 
 
-
-
 //will find the tail of the snake by searching across the whole grid to find the grid position where a true element is
 // surrounded by only one other true cell (see figure below), but is not the head, and return 3 items: the x and y
-// position of the tail in the grid, and the length of the snake on the board. Incremenets the exhaustiveChecks counter with each (x',y') cell that is examined.
+// position of the tail in the grid, and the length of the snake on the board. Increments exhaustiveChecks counter with each (x',y') cell that is examined.
     public int[] findTailExhaustive(int neighbors){
         resetCounters();//need to reset counters at beginning of method
         //neighbors needs to be less than or equal to three
-        int result[]=new int[3];
+        int result[]=new int[3];//result will give back 3 values, (x&y)position and total length
         int length=0;
         int tailX=0;
         int tailY=0;
+        intTotLength=0;
+        //if neighbor=1 it is either tail or head.
+        //if neigh=2 or more, move to the next cell
     for (int r=0;r<game.length;r++){
+        exhaustiveChecks++;
         for(int c=0;c<game[r].length;c++){
-            if (game[r][c]==true){
-                exhaustiveChecks++;
-                length++;
+            exhaustiveChecks++;//placed the loop this way because we want to count all cells examined
+            if (game[r][c]==true&&neighbors==1){//we want to make sure the cell is true and has at most 1 true neighbor
+                length++;//is tail or head
+                result=[r,c];
             }//closes if statement
-            else if (game[r][c]=false) {
-                exhaustiveChecks++;
-                length--;
-            }//closes else if
+           else if (game[r][c]==true&&neighbors>=2){//we want to make sure the cell is true and has at most 1 true neighbor
+                length++;
         }//closes col
         tailX = result[0];
         tailY = result[1];
         length =result[2];
-//if neighbor=1 it is either tail or head.
-        //if neigh=2 or more, move to the next cell
     }//closes
     return result;
     //(x,y position);
@@ -90,7 +87,7 @@ public class SnakeJava {
     }//closes private findTailRecursive
 
 
-    private void resetCounters() {//resets both the exhaustiveChecks and recursiveChecks counters to 0.
+    public void resetCounters(){//resets both the exhaustiveChecks and recursiveChecks counters to 0.
         exhaustiveChecks=0;
         recursiveChecks=0;
     } //closes resetCounter
