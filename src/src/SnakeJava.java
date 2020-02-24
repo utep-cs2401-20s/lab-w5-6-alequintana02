@@ -8,39 +8,37 @@ public class SnakeJava {
     private int[] headPosition;//size =2;
     private static int exhaustiveChecks;
     private static int recursiveChecks;
+    private int headX;
+    private int headY;
 
 
-    //constructors//
+                                                    //constructors//
 // default constructor
     public SnakeJava() {
         this.game = new boolean[1][1];
     }//closes default constructor size 1x1
 
-    public SnakeJava(boolean[][] game, int[] headPosition) {
-        this.headPosition = headPosition;
-
+    public SnakeJava(boolean[][] game, int headX, int headY) {
     }//closes hP constructor
-//index[0] should be first position=head
-    //end of constructors//
+                                                 //end of constructors//
 
-    //methods//
+
+                                                        //methods//
 
 
     private int neighbors(boolean[][] game) {//counts LIVE neighbors//make sure to not go out of bounds
         int neighbors = 0;
         for (int r = 0; r < game.length; r++) {
             for (int c = 0; c < game[r].length; c++) {
-                if (game[r][c - 1] == true) {//left
+                if (game[r][c] == true){
                     neighbors++;
-                    ;
-                }
-                if (game[r - 1][c] == true) {//straight up
+                }if (game[r][c - 1] == true) {//left
                     neighbors++;
-                }
-                if (game[r + 1][c] == true) {//straight down
+                } if (game[r - 1][c] == true) {//straight up
                     neighbors++;
-                }
-                if (game[r][c + 1] == true) {//right
+                } if (game[r + 1][c] == true) {//straight down
+                    neighbors++;
+                } if (game[r][c + 1] == true) {//right
                     neighbors++;
                 }
             }//closes col }//closes for loop
@@ -57,47 +55,44 @@ public class SnakeJava {
         //neighbors needs to be less than or equal to three
         int result[] = new int[3];//result will give back 3 values, (x&y)position and total length
         int length = 0;
-        int tailX = 0;
-        int tailY = 0;
+        int tailX = -1;
+        int tailY = -1;
         //intTotalLength = 0;
         //if neighbor=1 it is either tail or head.
         //if neigh=2 or more, move to the next cell
-        for (int r = 0; r < game.length; r++) {
-            exhaustiveChecks++;
-            for (int c = 0; c < game[r].length; c++) {
-                exhaustiveChecks++;//placed the loop this way because we want to count all cells examined
-                if (game[r][c] == true && neighbors == 1) {//we want to make sure the cell is true and has at most 1 true neighbor
-                    length++;//is tail or head
-                    //result[0]=[r];
-
+        for (int r = 0; r < game.length; r++) {//row traversal
+            for (int c = 0; c < game[r].length; c++) {//col traversal
+                if (game[r][c] == true && neighbors == 1) {//we want to make sure the cell is true and has at most 1 true neighbor= head or tail
+                    length++;//THE HEAD ONLY HAS ONE NEIGHBOR
+                   // headX = r;
+                   // headY = c;
                 }//closes if statement
-                else if (game[r][c] == true && neighbors >= 2) {//we want to make sure the cell is true and has at most 1 true neighbor
+                else if (game[r][c] == true && neighbors !=1) {
                     length++;
-                }//closes col
-                tailX = result[0];
-                tailY = result[1];
-                length = result[2];
-            }//closes
-            //return result;
-            //(x,y position);
-        }//closes findTailExhaustive
+                    tailX=r;
+                    tailY=c;
+                    result[0] = tailX;
+                    result[1] = tailY;
+                    result[2] = length;
+                    exhaustiveChecks--;
+                }
+                exhaustiveChecks++;
+            }//closes row
+        }//closes col
         return result;
-    }
+        //(x,y position);
+    }//closes findTailExhaustive
+
+
 
         public int[] findTailRecursive () {// will return the exact same thing as exhaustive
-            for (int r = 0; r < game.length; r++) {
-                exhaustiveChecks++;
-                for (int c = 0; c < game[r].length; c++) {
-                    recursiveChecks++;
-                }
-
-                recursiveChecks++;
                 return recursiveChecks;
             }//closes findTailRecursive
-        }
 
-
+//
         private int[] findTailRecursive (int[] currentPosition, int[] previousPosition){
+        resetCounters();
+
             return findTailRecursive;
         }//closes private findTailRecursive
 
