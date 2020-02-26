@@ -91,7 +91,7 @@ public class SnakeJava {
 
 //
         private int[] findTailRecursive (int[] currentPosition, int[] previousPosition){
-        resetCounters();
+        resetCounters();//2 lines of code total for this method, rC counts as one so i am missing another line
 
             return findTailRecursive;
         }//closes private findTailRecursive
